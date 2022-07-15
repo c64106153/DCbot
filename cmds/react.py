@@ -23,7 +23,8 @@ with open('setting.json','r',encoding='utf8') as jfile:
 class React(Cog_Extension):
 
     @commands.command()
-    async def pic(self,ctx,*,msg):
+    @commands.has_permissions(manage_messages=True)
+    async def picA(self,ctx,*,msg):
         
 
 
@@ -62,9 +63,12 @@ class React(Cog_Extension):
         driver.quit()
         await ctx.send(random.choice(pictures))
         
+
+        
                     
     @commands.command()
-    async def yt(self,ctx,*,msg):
+    @commands.has_permissions(manage_messages=True)
+    async def ytA(self,ctx,*,msg):
         
 
 
@@ -88,9 +92,36 @@ class React(Cog_Extension):
             if video != None and  'watch' in video:
                 if video not in videos:
                     videos.append(video)
-                    
         driver.quit()
         await ctx.send(random.choice(videos))
+
+    @commands.command()
+    @commands.has_permissions(manage_messages=True)
+    async def ytB(self,ctx,*,msg):
+        
+
+        chrome_options = Options() 
+        chrome_options.add_argument('--headless')  # 啟動Headless 無頭
+
+
+        PATH="C:/Users/user/Desktop/chromedriver/chromedriver.exe"
+
+        driver = webdriver.Chrome(PATH,chrome_options=chrome_options)
+
+        driver.get(f"https://www.youtube.com/results?search_query={msg}")
+
+        yts = driver.find_elements(By.CLASS_NAME,'yt-simple-endpoint')
+
+        videos=[]
+
+
+        for yt in yts:
+            video=yt.get_attribute("href")
+            if video != None and  'watch' in video:
+                if video not in videos:
+                    videos.append(video)
+        driver.quit()
+        await ctx.send(videos[0])
 
 
 def setup(bot):

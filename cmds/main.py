@@ -19,7 +19,8 @@ class Main(Cog_Extension):
         await ctx.send(msg)
 
     @commands.command()
-    async def clean(ctx,num:int):
+    @commands.has_permissions(manage_messages=True)
+    async def clean(self,ctx,num:int):
         await ctx.channel.purge(limit=num+1)
     
 
